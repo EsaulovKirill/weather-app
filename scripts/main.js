@@ -1,4 +1,4 @@
-const API_KEY = "38d2c232dcaa66f3d3ec7034b86ecc70";
+const API_KEY = "";
 
 const url = `https://api.openweathermap.org/data/2.5/weather?q=Moscow&appid=${API_KEY}&units=metric&lang=en`;
 
