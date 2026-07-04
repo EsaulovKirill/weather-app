@@ -19,6 +19,7 @@ const temperatureElement = document.querySelector(".weather-card__temperature");
 const windElement = document.querySelector(".weather-card__wind");
 const humidityElement = document.querySelector(".weather-card__humidity");
 const feelsLikeElement = document.querySelector(".weather-card__feels-like");
+const errorElement = document.querySelector(".weather-controls__error");
 
 //========================================================
 // Mock data
@@ -114,17 +115,28 @@ function renderWeatherCard(weatherData) {
 }
 
 async function fetchWeather(city) {
-const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric&lang=ru`;
-  const response = await fetch(url);
-  const data = await response.json();
-  if (!response.ok) {
-  console.log("City not found");
-  return;
-}
+  setLoading(true);
 
-  const transformedData = transformWeatherData(data);
-  console.log(transformedData);
-  renderWeatherCard(transformedData);
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric&lang=ru`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!response.ok) {
+      showError("City not found");
+      return;
+    }
+
+    const transformedData = transformWeatherData(data);
+
+    showError("");
+    renderWeatherCard(transformedData);
+  } catch (error) {
+    console.log("Request failed", error);
+  } finally {
+    setLoading(false);
+  }
 }
 
 function transformWeatherData(data){
@@ -138,6 +150,23 @@ function transformWeatherData(data){
     feelsLike: `${Math.round(data.main.feels_like)}°C`,
   }
 }
+
+function setLoading(isLoading) {
+  searchInput.disabled = isLoading;
+
+  if (isLoading) {
+    searchInput.placeholder = "Loading...";
+  } else {
+    searchInput.placeholder = "Search Here";
+  }
+  searchInput.focus();
+}
+
+function showError(message) {
+  errorElement.textContent = message;
+}
+
+console.log(errorElement)
 
 //========================================================
 // Init
