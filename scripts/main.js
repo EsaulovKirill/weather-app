@@ -21,6 +21,13 @@ const humidityElement = document.querySelector(".weather-card__humidity");
 const feelsLikeElement = document.querySelector(".weather-card__feels-like");
 const errorElement = document.querySelector(".weather-controls__error");
 
+
+
+const state = {
+  unit: "C",
+  weather: null,
+};
+
 //========================================================
 // Mock data
 
@@ -28,10 +35,10 @@ const mockWeather = {
   city: "Введи город",
   date: "сегодня",
   condition: "Кайфово",
-  temperature: "23°C",
+  temperature: 23,
   wind: "5 km/h",
   humidity: "80%",
-  feelsLike: "25°C",
+  feelsLike: 23,
 };
 
 //========================================================
@@ -39,6 +46,7 @@ const mockWeather = {
 
 unitToggle.addEventListener("click", function (event) {
   const clickedButton = event.target.closest(".weather-controls__unit-button");
+
   if (!clickedButton) {
     return;
   }
@@ -49,12 +57,19 @@ unitToggle.addEventListener("click", function (event) {
     return;
   }
 
+  const selectedUnit = clickedButton.textContent.trim().replace("°", "");
+  state.unit = selectedUnit;
+
   const activeButton = unitToggle.querySelector(
     ".weather-controls__unit-button--active",
   );
 
   activeButton.classList.remove("weather-controls__unit-button--active");
   clickedButton.classList.add("weather-controls__unit-button--active");
+
+  if (state.weather) {
+  renderWeatherCard(state.weather);
+}
 });
 
 //========================================================
@@ -108,10 +123,10 @@ function renderWeatherCard(weatherData) {
   cityElement.textContent = weatherData.city;
   dateElement.textContent = weatherData.date;
   conditionElement.textContent = weatherData.condition;
-  temperatureElement.textContent = weatherData.temperature;
+  temperatureElement.textContent = `${convertTemperature(weatherData.temperature)}°${state.unit}`;
   windElement.textContent = weatherData.wind;
   humidityElement.textContent = weatherData.humidity;
-  feelsLikeElement.textContent = weatherData.feelsLike;
+  feelsLikeElement.textContent = `${convertTemperature(weatherData.feelsLike)}°${state.unit}`
 }
 
 async function fetchWeather(city) {
@@ -129,9 +144,9 @@ async function fetchWeather(city) {
     }
 
     const transformedData = transformWeatherData(data);
-
+    state.weather = transformedData;
     showError("");
-    renderWeatherCard(transformedData);
+    renderWeatherCard(state.weather);
   } catch (error) {
     console.log("Request failed", error);
   } finally {
@@ -144,10 +159,10 @@ function transformWeatherData(data){
     city: data.name,
     date: "Today",
     condition: data.weather[0].main,
-    temperature: `${Math.round(data.main.temp)}°C`,
+    temperature: Math.round(data.main.temp),
     wind: `${data.wind.speed} m/s`,
     humidity: `${data.main.humidity}%`,
-    feelsLike: `${Math.round(data.main.feels_like)}°C`,
+    feelsLike: Math.round(data.main.feels_like),
   }
 }
 
@@ -166,7 +181,13 @@ function showError(message) {
   errorElement.textContent = message;
 }
 
-console.log(errorElement)
+function convertTemperature(temperature) {
+  if (state.unit === "F") {
+    return Math.round((temperature * 9) / 5 + 32);
+  }
+
+  return temperature;
+}
 
 //========================================================
 // Init
