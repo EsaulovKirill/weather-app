@@ -43,17 +43,27 @@
 
                     <div class="weather-controls__actions">
                         <div class="weather-controls__unit-toggle">
-                            <button class="weather-controls__unit-button weather-controls__unit-button--active"
+                            <button
+                                class="weather-controls__unit-button weather-controls__unit-button--active button-celsius"
                                 type="button">
                                 °C
                             </button>
-                            <button class="weather-controls__unit-button" type="button">
+                            <button class="weather-controls__unit-button button-farengheit" type="button">
                                 °F
                             </button>
                         </div>
-                        <button class="weather-controls__button" type="button">Today</button>
-                        <button type="button" class="weather-controls__button">Tomorrow</button>
-                        <button type="button" class="weather-controls__button">5 days</button>
+                        <div class="weather-controls__period-toggle">
+                            <button class="weather-controls__period-button weather-controls__period-button--active"
+                                type="button">
+                                Today
+                            </button>
+                            <button class="weather-controls__period-button" type="button">
+                                Tomorrow
+                            </button>
+                            <button class="weather-controls__period-button" type="button">
+                                5 days
+                            </button>
+                        </div>
                     </div>
                 </section>
                 <section class="weather-card">
@@ -91,7 +101,7 @@
         </main>
         <footer class="footer">
             <p class="footer__text">
-                Weather App · Esaulov Kirill · Built for frontend practice  
+                Weather App · Esaulov Kirill · Built for frontend practice
             </p>
         </footer>
     </div>
