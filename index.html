@@ -1,35 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/reset.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="./styles/style.css">
     <title>Weather App</title>
 </head>
+
 <body>
     <div class="page">
         <header class="header">
             <div class="header__container">
                 <div class="header__logo">
-                    <h1>YeaWeather</h1>
+                    <h2 class="header__heading">YeaWeather</h2>
                 </div>
-                
-                    <nav class="header__nav">
-                        <a href="#" class="header__link">Home</a>
-                        <a href="#" class="header__link">Download App</a>
-                        <a href="#" class="header__link">Contact Me</a>
-                    </nav>
-                
+                <nav class="header__nav">
+                    <a href="#" class="header__link">Home</a>
+                    <a href="#" class="header__link">Download App</a>
+                    <a href="#" class="header__link">Contact Me</a>
+                </nav>
                 <div class="header__actions">
-                    <button class="header__button">Заглушка</button>
+                    <button class="header__button">Sign up</button>
                 </div>
             </div>
         </header>
+        <main>
+            <div class="container">
+                <div class="hero">
+                    <h2 class="hero__title">
+                        Seeing the weather of the
+                        whole world with <span class="hero__span">YeaWeather</span>!
+                    </h2>
+                </div>
+                <section class="weather-controls">
+                    <input class="weather-controls__search" type="text" placeholder="Search Here">
+
+                    <div class="weather-controls__actions">
+                        <div class="weather-controls__unit-toggle">
+                            <button class="weather-controls__unit-button weather-controls__unit-button--active"
+                                type="button">
+                                °C
+                            </button>
+                            <button class="weather-controls__unit-button" type="button">
+                                °F
+                            </button>
+                        </div>
+                        <button class="weather-controls__button" type="button">Today</button>
+                        <button type="button" class="weather-controls__button">Tomorrow</button>
+                        <button type="button" class="weather-controls__button">5 days</button>
+                    </div>
+                </section>
+                <section class="weather-card">
+                    <div class="weather-card__main">
+                        <div class="weather-card__info">
+                            <h2 class="weather-card__city">Moscow</h2>
+                            <p class="weather-card__date">Tuesday, 19:52</p>
+                            <p class="weather-card__condition">Cloudy</p>
+                        </div>
+
+                        <div class="weather-card__temperature">
+                            23°C
+                        </div>
+                    </div>
+
+                    <div class="weather-card__details">
+                        <div class="weather-card__detail">
+                            <span>Wind</span>
+                            <strong>11 km/h</strong>
+                        </div>
+
+                        <div class="weather-card__detail">
+                            <span>Humidity</span>
+                            <strong>62%</strong>
+                        </div>
+
+                        <div class="weather-card__detail">
+                            <span>Feels like</span>
+                            <strong>25°C</strong>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+        <footer class="footer">
+            <p class="footer__text">
+                Weather App · Esaulov Kirill · Built for frontend practice  
+            </p>
+        </footer>
     </div>
     <script src="./scripts/main.js"></script>
 </body>
+
 </html>

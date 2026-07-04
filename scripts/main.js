@@ -1,1 +1,4 @@
-console.log('Weather App Started')
+console.log("Weather App Started");
+function test() {
+  console.log("Hello");
+}
