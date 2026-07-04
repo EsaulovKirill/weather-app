@@ -1,0 +1,29 @@
+:root {
+    --background-color: #1B262C;
+    --main-text-color: #fff;
+    --border-radius: 12px;
+}
+
+
+
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #eaf4ff;
+   
+    
+}
+
+.page {
+    max-width: 1440px;
+    background-color: var(--background-color);
+    color: var(--main-text-color);
+    padding: 50px 80px;
+}
+
+.header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
