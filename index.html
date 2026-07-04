@@ -39,8 +39,9 @@
                     </h2>
                 </div>
                 <section class="weather-controls">
-                    <input class="weather-controls__search" type="text" placeholder="Search Here">
-
+                    <form class="weather-controls__search-form">
+                        <input class="weather-controls__search" type="text" placeholder="Search Here" />
+                    </form>
                     <div class="weather-controls__actions">
                         <div class="weather-controls__unit-toggle">
                             <button
@@ -82,17 +83,17 @@
                     <div class="weather-card__details">
                         <div class="weather-card__detail">
                             <span>Wind</span>
-                            <strong>11 km/h</strong>
+                            <strong class="weather-card__wind">11 km/h</strong>
                         </div>
 
                         <div class="weather-card__detail">
                             <span>Humidity</span>
-                            <strong>62%</strong>
+                            <strong class="weather-card__humidity">62%</strong>
                         </div>
 
                         <div class="weather-card__detail">
                             <span>Feels like</span>
-                            <strong>25°C</strong>
+                            <strong class="weather-card__feels-like">25°C</strong>
                         </div>
                     </div>
                 </section>
