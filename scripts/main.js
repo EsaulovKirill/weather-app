@@ -20,25 +20,11 @@ const windElement = document.querySelector(".weather-card__wind");
 const humidityElement = document.querySelector(".weather-card__humidity");
 const feelsLikeElement = document.querySelector(".weather-card__feels-like");
 const errorElement = document.querySelector(".weather-controls__error");
-
-
+const iconElement = document.querySelector(".weather-card__icon");
 
 const state = {
   unit: "C",
   weather: null,
-};
-
-//========================================================
-// Mock data
-
-const mockWeather = {
-  city: "Введи город",
-  date: "сегодня",
-  condition: "Кайфово",
-  temperature: 23,
-  wind: "5 km/h",
-  humidity: "80%",
-  feelsLike: 23,
 };
 
 //========================================================
@@ -68,8 +54,8 @@ unitToggle.addEventListener("click", function (event) {
   clickedButton.classList.add("weather-controls__unit-button--active");
 
   if (state.weather) {
-  renderWeatherCard(state.weather);
-}
+    renderWeatherCard(state.weather);
+  }
 });
 
 //========================================================
@@ -112,7 +98,7 @@ function handleSearch() {
   const city = searchInput.value.trim();
 
   if (!city) return;
-  
+
   fetchWeather(city);
 
   searchInput.value = "";
@@ -126,7 +112,9 @@ function renderWeatherCard(weatherData) {
   temperatureElement.textContent = `${convertTemperature(weatherData.temperature)}°${state.unit}`;
   windElement.textContent = weatherData.wind;
   humidityElement.textContent = weatherData.humidity;
-  feelsLikeElement.textContent = `${convertTemperature(weatherData.feelsLike)}°${state.unit}`
+  feelsLikeElement.textContent = `${convertTemperature(weatherData.feelsLike)}°${state.unit}`;
+  iconElement.src = `https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`;
+  iconElement.alt = weatherData.condition;
 }
 
 async function fetchWeather(city) {
@@ -154,16 +142,30 @@ async function fetchWeather(city) {
   }
 }
 
-function transformWeatherData(data){
+function transformWeatherData(data) {
   return {
     city: data.name,
-    date: "Today",
+    date: formatDate(data.dt, data.timezone),
     condition: data.weather[0].main,
     temperature: Math.round(data.main.temp),
     wind: `${data.wind.speed} m/s`,
     humidity: `${data.main.humidity}%`,
     feelsLike: Math.round(data.main.feels_like),
-  }
+    icon: data.weather[0].icon,
+  };
+}
+
+function formatDate(timestamp, timezoneOffset) {
+  const date = new Date((timestamp + timezoneOffset) * 1000);
+
+  const formattedDate = date.toLocaleString("ru-RU", {
+    weekday: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
+
+  return formattedDate[0].toUpperCase() + formattedDate.slice(1);
 }
 
 function setLoading(isLoading) {
@@ -192,4 +194,4 @@ function convertTemperature(temperature) {
 //========================================================
 // Init
 
-renderWeatherCard(mockWeather);
+renderWeatherCard(fetchWeather("Moscow"));

@@ -199,6 +199,23 @@ body {
   font-size: 24px;
 }
 
+.weather-card__visual {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weather-card__icon {
+  width: 120px;
+  height: 120px;
+}
+
+.weather-card__condition {
+  margin-top: 8px;
+  font-size: 28px;
+  font-weight: 500;
+}
+
 .weather-controls__error {
   margin-bottom: 8px;
   color: #ffb4b4;
