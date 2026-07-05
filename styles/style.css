@@ -223,6 +223,57 @@ body {
   min-height: 20px;
 }
 
+.forecast {
+  margin-top: 40px;
+}
+
+.forecast__list {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.forecast__card {
+  width: 160px;
+  min-height: 235px;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.forecast__date {
+  min-height: 48px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.forecast__icon {
+  width: 70px;
+  height: 70px;
+  margin-bottom: 8px;
+}
+
+.forecast__temp {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.forecast__condition {
+  opacity: 0.8;
+}
+
+.hidden {
+  display: none;
+}
+
 .footer {
   margin-top: 64px;
   padding-top: 24px;

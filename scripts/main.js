@@ -21,12 +21,18 @@ const humidityElement = document.querySelector(".weather-card__humidity");
 const feelsLikeElement = document.querySelector(".weather-card__feels-like");
 const errorElement = document.querySelector(".weather-controls__error");
 const iconElement = document.querySelector(".weather-card__icon");
+const forecastListElement = document.querySelector('.forecast__list')
+const weatherCard = document.querySelector(".weather-card");
+const forecastSection = document.querySelector(".forecast");
 
 const state = {
   unit: "C",
   weather: null,
   tomorrowWeather: null,
+  fiveDaysForecast: [],
 };
+
+
 
 //========================================================
 // Event Listeners
@@ -57,6 +63,14 @@ unitToggle.addEventListener("click", function (event) {
   if (state.weather) {
     renderWeatherCard(state.weather);
   }
+
+  if (state.weather) {
+  renderWeatherCard(state.weather);
+}
+
+if (!forecastSection.classList.contains("hidden")) {
+  renderFiveDaysForecast(state.fiveDaysForecast);
+}
 });
 
 //========================================================
@@ -92,6 +106,40 @@ periodToggle.addEventListener("click", function (event) {
   if (selectedPeriod === "Today" && state.weather) {
     renderWeatherCard(state.weather);
   }
+
+  if (selectedPeriod === "Today" && state.weather) {
+  forecastListElement.innerHTML = "";
+  renderWeatherCard(state.weather);
+}
+
+if (selectedPeriod === "Tomorrow" && state.tomorrowWeather) {
+  forecastListElement.innerHTML = "";
+  renderWeatherCard(state.tomorrowWeather);
+}
+
+if (selectedPeriod === "5 days" && state.fiveDaysForecast.length > 0) {
+  renderFiveDaysForecast(state.fiveDaysForecast);
+}
+
+if (selectedPeriod === "Today" && state.weather) {
+  forecastSection.classList.add("hidden");
+  weatherCard.classList.remove("hidden");
+  forecastListElement.innerHTML = "";
+  renderWeatherCard(state.weather);
+}
+
+if (selectedPeriod === "Tomorrow" && state.tomorrowWeather) {
+  forecastSection.classList.add("hidden");
+  weatherCard.classList.remove("hidden");
+  forecastListElement.innerHTML = "";
+  renderWeatherCard(state.tomorrowWeather);
+}
+
+if (selectedPeriod === "5 days" && state.fiveDaysForecast.length > 0) {
+  weatherCard.classList.add("hidden");
+  forecastSection.classList.remove("hidden");
+  renderFiveDaysForecast(state.fiveDaysForecast);
+}
 });
 
 //========================================================
@@ -126,6 +174,25 @@ function renderWeatherCard(weatherData) {
   feelsLikeElement.textContent = `${convertTemperature(weatherData.feelsLike)}°${state.unit}`;
   iconElement.src = `https://openweathermap.org/img/wn/${weatherData.icon}@2x.png`;
   iconElement.alt = weatherData.condition;
+}
+
+function renderFiveDaysForecast(forecastList){
+  forecastListElement.innerHTML = '';
+
+  forecastList.forEach(function(forecastItem){
+    const forecastCard = document.createElement('article');
+
+    forecastCard.classList.add('forecast__card');
+
+    forecastCard.innerHTML = `
+      <p class="forecast__date">${forecastItem.date}</p>
+      <img class="forecast__icon" src="https://openweathermap.org/img/wn/${forecastItem.icon}@2x.png" alt="${forecastItem.condition}">
+      <p class="forecast__temp">${convertTemperature(forecastItem.temperature)}°${state.unit}</p>
+      <p class="forecast__condition">${forecastItem.condition}</p>
+    `;
+
+    forecastListElement.appendChild(forecastCard)
+  });
 }
 
 async function fetchWeather(city) {
@@ -173,7 +240,9 @@ async function fetchForecast(city) {
     data.city.name,
   );
   state.tomorrowWeather = transformedForecast;
-  console.log(state.tomorrowWeather);
+  
+  state.fiveDaysForecast = transformFiveDaysForecast(data.list, data.city.name)
+  console.log(state.fiveDaysForecast)
 }
 
 function getTomorrowDateString() {
@@ -198,7 +267,7 @@ function transformWeatherData(data) {
 function transformForecastData(forecastItem, cityName) {
   return {
     city: cityName,
-    date: "Завтра, 12:00",
+    date: formatForecastDate(forecastItem.dt_txt),
     condition: forecastItem.weather[0].main,
     temperature: Math.round(forecastItem.main.temp),
     wind: `${forecastItem.wind.speed} m/s`,
@@ -219,6 +288,28 @@ function formatDate(timestamp, timezoneOffset) {
   });
 
   return formattedDate[0].toUpperCase() + formattedDate.slice(1);
+}
+
+function transformFiveDaysForecast(forecastList, cityName){
+  const dailyForecasts = forecastList.filter(function(item){
+    return item.dt_txt.includes("12:00:00")
+  })
+
+  return dailyForecasts.map(function(item){
+    return transformForecastData(item, cityName)
+  })
+}
+
+function formatForecastDate(dateText) {
+  const date = new Date(dateText)
+
+  const formattedDate = date.toLocaleString("ru-RU", {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  });
+
+  return formattedDate[0].toUpperCase() + formattedDate.slice(1)
 }
 
 function setLoading(isLoading) {
