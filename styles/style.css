@@ -95,6 +95,7 @@ body {
 .weather-controls__search {
   width: 100%;
   max-width: 340px;
+  min-width: 150px;
   padding: 1.5rem 2rem;
   border: none;
   border-radius: var(--border-radius);
@@ -128,7 +129,9 @@ body {
   color: var(--main-text-color);
   font-size: 18px;
   font-weight: 500;
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .weather-controls__period-button {
@@ -284,4 +287,161 @@ body {
 .footer__text {
   font-size: 16px;
   color: rgba(255, 255, 255, 0.6);
+}
+
+.weather-controls {
+  margin-top: 48px;
+}
+
+.weather-controls__top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+
+.weather-controls__period-toggle {
+  margin-top: 0;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 20px 14px;
+  }
+
+  .header__nav,
+  .header__button {
+    display: none;
+  }
+
+  .header {
+    justify-content: center;
+  }
+
+  .weather-app {
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  .weather-controls {
+    margin-top: 28px;
+    flex-direction: column;
+    
+  }
+
+  .weather-controls__top-row {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  .weather-controls__search-form {
+    width: 100%;
+  }
+
+  .weather-controls__search {
+    width: 100%;
+    height: 64px;
+  }
+
+  .weather-controls__unit-toggle {
+    height: 64px;
+  }
+
+  .weather-controls__period-toggle {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 16px;
+  }
+
+  .weather-controls__period-button {
+    width: 100%;
+  }
+
+  .weather-card {
+    padding: 24px 18px;
+  }
+
+  .weather-card__main {
+    flex-direction: column;
+    gap: 18px;
+    text-align: center;
+  }
+
+  .weather-card__city {
+    font-size: 36px;
+  }
+
+  .weather-card__temperature {
+    font-size: 56px;
+  }
+
+  .weather-card__icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .weather-card__condition {
+    font-size: 22px;
+  }
+
+  .weather-card__details {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .weather-card__detail {
+    padding: 14px 10px;
+  }
+
+  .forecast__list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .forecast__card {
+    width: 100%;
+    min-height: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .forecast__date {
+    min-height: auto;
+    margin-bottom: 0;
+    text-align: left;
+  }
+
+  .forecast__icon {
+    width: 52px;
+    height: 52px;
+    margin-bottom: 0;
+  }
+
+  .forecast__temp {
+    font-size: 24px;
+    margin-bottom: 0;
+  }
+
+  .forecast__condition {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .weather-controls__period-toggle {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .weather-controls__period-button {
+    width: 100%;
+  }
+
+  .weather-card__details {
+    grid-template-columns: 1fr;
+  }
 }

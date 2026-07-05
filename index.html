@@ -39,34 +39,32 @@
                     </h2>
                 </div>
                 <section class="weather-controls">
-                    <form class="weather-controls__search-form">
-                        <input class="weather-controls__search" type="text" placeholder="Search Here" />
-                    </form>
-                    <p class="weather-controls__error"></p>
-                    <div class="weather-controls__actions">
+                    <div class="weather-controls__top-row">
+                        <form class="weather-controls__search-form">
+                            <input class="weather-controls__search" type="text" placeholder="Search Here" />
+                        </form>
+
                         <div class="weather-controls__unit-toggle">
-                            <button
-                                class="weather-controls__unit-button weather-controls__unit-button--active button-celsius"
-                                type="button">
+                            <button class="weather-controls__unit-button weather-controls__unit-button--active">
                                 °C
                             </button>
-                            <button class="weather-controls__unit-button button-farengheit" type="button">
-                                °F
-                            </button>
-                        </div>
-                        <div class="weather-controls__period-toggle">
-                            <button class="weather-controls__period-button weather-controls__period-button--active"
-                                type="button">
-                                Today
-                            </button>
-                            <button class="weather-controls__period-button" type="button">
-                                Tomorrow
-                            </button>
-                            <button class="weather-controls__period-button" type="button">
-                                5 days
-                            </button>
+                            <button class="weather-controls__unit-button">°F</button>
                         </div>
                     </div>
+
+                    <div class="weather-controls__period-toggle">
+                        <button class="weather-controls__period-button weather-controls__period-button--active">
+                            Today
+                        </button>
+                        <button class="weather-controls__period-button">
+                            Tomorrow
+                        </button>
+                        <button class="weather-controls__period-button">
+                            5 days
+                        </button>
+                    </div>
+
+                    <p class="weather-controls__error"></p>
                 </section>
                 <section class="weather-card">
                     <div class="weather-card__main">
