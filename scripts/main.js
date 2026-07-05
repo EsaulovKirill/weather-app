@@ -25,6 +25,7 @@ const iconElement = document.querySelector(".weather-card__icon");
 const state = {
   unit: "C",
   weather: null,
+  tomorrowWeather: null,
 };
 
 //========================================================
@@ -81,6 +82,16 @@ periodToggle.addEventListener("click", function (event) {
 
   activeButton.classList.remove("weather-controls__period-button--active");
   clickedButton.classList.add("weather-controls__period-button--active");
+
+  const selectedPeriod = clickedButton.textContent.trim();
+
+  if (selectedPeriod === "Tomorrow" && state.tomorrowWeather) {
+    renderWeatherCard(state.tomorrowWeather);
+  }
+
+  if (selectedPeriod === "Today" && state.weather) {
+    renderWeatherCard(state.weather);
+  }
 });
 
 //========================================================
@@ -98,7 +109,7 @@ function handleSearch() {
   const city = searchInput.value.trim();
 
   if (!city) return;
-
+  saveLastCity(city);
   fetchWeather(city);
 
   searchInput.value = "";
@@ -142,6 +153,35 @@ async function fetchWeather(city) {
   }
 }
 
+async function fetchForecast(city) {
+  const url = `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric&lang=ru`;
+  const response = await fetch(url);
+  const data = await response.json();
+
+  const tomorrowDate = getTomorrowDateString();
+
+  const tomorrowForecast = data.list.filter(function (item) {
+    return item.dt_txt.startsWith(tomorrowDate);
+  });
+
+  const tomorrowMiddayForecast = tomorrowForecast.find(function (item) {
+    return item.dt_txt.includes("12:00:00");
+  });
+
+  const transformedForecast = transformForecastData(
+    tomorrowMiddayForecast,
+    data.city.name,
+  );
+  state.tomorrowWeather = transformedForecast;
+  console.log(state.tomorrowWeather);
+}
+
+function getTomorrowDateString() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return tomorrow.toISOString().slice(0, 10);
+}
+
 function transformWeatherData(data) {
   return {
     city: data.name,
@@ -152,6 +192,19 @@ function transformWeatherData(data) {
     humidity: `${data.main.humidity}%`,
     feelsLike: Math.round(data.main.feels_like),
     icon: data.weather[0].icon,
+  };
+}
+
+function transformForecastData(forecastItem, cityName) {
+  return {
+    city: cityName,
+    date: "Завтра, 12:00",
+    condition: forecastItem.weather[0].main,
+    temperature: Math.round(forecastItem.main.temp),
+    wind: `${forecastItem.wind.speed} m/s`,
+    humidity: `${forecastItem.main.humidity}%`,
+    feelsLike: Math.round(forecastItem.main.feels_like),
+    icon: forecastItem.weather[0].icon,
   };
 }
 
@@ -191,7 +244,16 @@ function convertTemperature(temperature) {
   return temperature;
 }
 
+function saveLastCity(city) {
+  localStorage.setItem("lastCity", city);
+}
+
+function getLastCity() {
+  return localStorage.getItem("lastCity" || "Moscow");
+}
+
 //========================================================
 // Init
 
-renderWeatherCard(fetchWeather("Moscow"));
+renderWeatherCard(fetchWeather(getLastCity()));
+fetchForecast(getLastCity());
